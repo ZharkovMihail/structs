@@ -1,0 +1,100 @@
+# structs
+#include<iostream> 
+#include<string> 
+using namespace std;
+struct compl {
+	int real;
+	int im;
+};
+struct st {
+	compl* get(string st) {
+		int a1;
+		int a2;
+		int i = 0;
+		string r;
+		if (st[0] != '-') {
+			r = st[0];
+		}
+		int g = st.length();
+		for (i = 1; i < g; i++) {
+			if (st[i] == '+' || st[i] == '-') {
+				r = r + st[i];
+				a1 = atoi(r.c_str());
+				break;
+			}
+			r = r + st[i];
+			a1 = atoi(r.c_str());
+		}
+		if (st[0] == '-') {
+			a1 = a1 * -1;
+		}
+		string r1;
+		int flag = 1;
+		int flag2 = i;
+		for (i; i < g; i++) {
+			if (st[i] == 'i') {
+				if (flag2 + 1 == i) {
+					r1 = r1 + '1';
+					a2 = atoi(r1.c_str());
+				}
+				break;
+			}
+			r1 = r1 + st[i];
+			a2 = atoi(r1.c_str());
+		}
+		compl* co = new compl;
+		co->real = a1;
+		co->im = a2;
+		return co;
+	}
+	compl* sum(compl* a1, compl* a2) {
+		compl* sam = new compl;
+		sam->real = a1->real + a2->real;
+		sam->im = a1->im + a2->im;
+		return sam;
+	}
+	compl* sub(compl* a1, compl* a2) {
+		compl* temp = new compl;
+		temp->real = a1->real - a2->real;
+		temp->im = a1->im - a2->im;
+		return temp;
+	}
+	compl* malt(compl* a1, compl* a2) {
+		compl* temp = new compl;
+		temp->real = (a1->real * a2->real) + (a1->im *a2->im);
+		temp->im = (a1->real * a2->im) + (a1->im * a2->real);
+		return temp;
+	}
+};
+
+
+void main() {
+	st s;
+	string st;
+	cin >> st;
+	compl* a1=s.get(st);
+	cin >> st;
+	compl* a2 = s.get(st);
+	cout << "sum two numbers?(+/-)";
+	cin >> st;
+	if (st[0] == '+') {
+		compl* temp = new compl;
+		temp=s.sum(a1,a2);
+		cout << temp->real <<" "<< temp->im<<"i"<<endl;
+	}
+	cout << "subtract 2st from 1st?(+/-)";
+	cin >> st;
+	if (st[0] == '+') {
+		compl* temp = new compl;
+		temp = s.sub(a1, a2);
+		cout << temp->real << " " << temp->im << "i" << endl;
+	}
+	cout << "multiply two numbers?(+/-)";
+	cin >> st;
+	if (st[0] == '+') {
+		compl* temp = new compl;
+		temp = s.malt(a1, a2);
+		cout << temp->real << " " << temp->im << "i" << endl;
+	}
+	system("pause");
+}
