@@ -1,0 +1,78 @@
+#include <iostream>
+#include <stdio.h>
+#include <algorithm>
+#include <string>
+using namespace std;
+struct rac {
+	int up;
+	int down;
+};
+struct st {
+	rac* get(string st) {
+		rac* node = new rac;
+		int g = st.length();
+		string r;
+		r = st[0];
+		int i;
+		for (i = 1; i < g; i++) {
+			if (st[i] == '/' ) {
+				break;
+			}
+			r = r + st[i];			
+		}
+		node->up = atoi(r.c_str());
+		i++;
+		string r1;
+		for (i; i < g; i++) {
+			r1 = r1 + st[i];
+			node->down = atoi(r1.c_str());
+		}
+		return node;
+	}
+	rac* normal(rac* a) {
+		for (int i = min(abs(a->up), abs(a->down));i>1; i--) {
+			if ((a->up) % i == 0 && (a->down) % i == 0) {
+				a->up = a->up / i;
+				a->down = a->down / i;
+			}
+		}
+		return a;
+	}
+	rac* sum(rac* a1, rac* a2) {
+		rac* sam = new rac;
+		sam->up = a1->up * a2->down+a2->up * a1->down;
+		sam->down = a1->down * a2->down;		
+		return normal(sam);
+	}
+	rac* malt(rac* a1, rac* a2) {
+		rac* sam = new rac;
+		sam->up = a1->up * a2->up;
+		sam->down = a1->down * a2->down;
+		return normal(sam);
+	}
+};
+int main() {
+	st s;
+	string st;
+	getline(cin, st);
+	rac* node1 = new rac;
+	node1 = s.get(st);
+	getline(cin, st);
+	rac* node2 = new rac;
+	node2 = s.get(st);
+	cout << "sum two numbers?(+/-)";
+	cin >> st;
+	if (st[0] == '+') {
+		rac* temp = new rac;
+		temp = s.sum(node1, node2);
+		cout << temp->up << '/' << temp->down<<endl;
+	}
+	cout << "multiply two numbers?(+/-)";
+	cin >> st;
+	if (st[0] == '+') {
+		rac* temp = new rac;
+		temp = s.malt(node1, node2);
+		cout << temp->up << '/' << temp->down;
+	}
+	return 0;
+}
